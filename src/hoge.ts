@@ -1,4 +1,6 @@
-function copyHoge(hogeId: number);
+function copyHoge(hogeId: number) {
+  console.log(hogeId);
+}
 
 copyHoge(xxx.id);
 
