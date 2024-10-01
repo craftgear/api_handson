@@ -13,6 +13,14 @@ const TodoSchema = z.object({
 
 export type Todo = z.infer<typeof TodoSchema>;
 export type TodoId = Todo['id'];
+export type NewTodo = Omit<Todo, 'id'>;
+export type TodoRepository = {
+  selectAll: () => Todo[];
+  insert: (todo: NewTodo) => Todo;
+  makeComplete: (id: TodoId) => Todo;
+};
 
 export const parseTodo = (data: unknown): Todo => TodoSchema.parse(data);
+export const parseNewTodo = (data: unknown): NewTodo =>
+  TodoSchema.omit({ id: true }).parse(data);
 export const isComplete = (todo: Todo) => todo.completed;
