@@ -1,32 +1,44 @@
-import { describe, it, expect, afterEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { readTodos, createTodo, completeTodo } from './todo';
-import { TodoId, TodoRepository } from '../domain/todo';
+import type { TodoRepository, TodoId } from '../domain/todo';
 
 describe('todo usecases', () => {
   const repository: TodoRepository = {
     insert: vi.fn(),
-    selectAll: vi.fn(),
+    findAll: vi.fn(),
+    findById: vi
+      .fn()
+      .mockResolvedValueOnce({
+        id: 1 as TodoId,
+        title: 'Buy milk',
+        completed: false,
+      })
+      .mockResolvedValueOnce(null),
     makeComplete: vi.fn(),
   };
 
-  afterEach(() => {
-    vi.resetAllMocks();
+  it('reads todos', async () => {
+    await readTodos(repository);
+    expect(repository.findAll).toHaveBeenCalled();
   });
 
-  it('read todos', () => {
-    readTodos(repository);
-    expect(repository.selectAll).toHaveBeenCalled();
-  });
-
-  it('creates a new todo', () => {
+  it('creates a new todo', async () => {
     const title = 'Buy milk';
-    createTodo(repository, title);
+    await createTodo(repository, title);
     expect(repository.insert).toHaveBeenCalledWith({ title, completed: false });
   });
 
-  it('completes a todo', () => {
-    const id = '1' as TodoId;
-    completeTodo(repository, id);
+  it('completes a todo', async () => {
+    const id = 1 as TodoId;
+    await completeTodo(repository, id);
+    expect(repository.findById).toHaveBeenCalledWith(id);
     expect(repository.makeComplete).toHaveBeenCalledWith(id);
+  });
+
+  it('throws an error when todo is not found', async () => {
+    const id = 999 as TodoId;
+    expect(() => completeTodo(repository, id)).rejects.toThrowError(
+      'Todo not found'
+    );
   });
 });
