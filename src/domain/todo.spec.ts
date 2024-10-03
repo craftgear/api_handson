@@ -12,7 +12,7 @@ describe.concurrent('parseTodo', () => {
     expect(parseTodo({ id: 1, title: 'Buy milk' })).toEqual({
       id: 1,
       title: 'Buy milk',
-      completed: false,
+      done: false,
     });
   });
 
@@ -45,13 +45,13 @@ describe('parseTodoId', () => {
 });
 
 describe.concurrent('isComplete', () => {
-  it('returns true when todo is completed', () => {
-    const todo = parseTodo({ id: 1, title: 'Buy milk', completed: true });
+  it('returns true when todo is done', () => {
+    const todo = parseTodo({ id: 1, title: 'Buy milk', done: true });
     expect(isComplete(todo)).toBe(true);
   });
 
-  it('returns false when todo is not completed', () => {
-    const todo = parseTodo({ id: 1, title: 'Buy milk', completed: false });
+  it('returns false when todo is not done', () => {
+    const todo = parseTodo({ id: 1, title: 'Buy milk', done: false });
     expect(isComplete(todo)).toBe(false);
   });
 });
@@ -60,7 +60,7 @@ describe.concurrent('parseNewTodo', () => {
   it('parse a valid new todo', () => {
     expect(parseNewTodo({ title: 'Buy milk' })).toEqual({
       title: 'Buy milk',
-      completed: false,
+      done: false,
     });
   });
 

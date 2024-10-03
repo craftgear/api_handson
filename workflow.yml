@@ -1,0 +1,84 @@
+version: "1.0"
+name: API Hands On
+config:
+  http:
+    baseURL: http://localhost:3000
+tests:
+  todos:
+    name: Operations about todos
+    steps:
+      - id: getTodos
+        http:
+          url: /v1/todos
+          method: GET
+          check:
+            status: 200
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  title:
+                    type: string
+                    minLength: 1
+                  completed:
+                    type:
+                      - boolean
+                      - "null"
+                    default: false
+                required:
+                  - id
+                  - title
+      - id: createTodo
+        http:
+          url: /v1/todos
+          method: POST
+          headers:
+            Content-Type: application/json
+            accept: application/json
+          json:
+            title: ipsum officia
+          check:
+            status: 200
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                title:
+                  type: string
+                  minLength: 1
+                completed:
+                  type:
+                    - boolean
+                    - "null"
+                  default: false
+              required:
+                - id
+                - title
+      - id: completeTodo
+        http:
+          url: /v1/todos/4/complete
+          method: PATCH
+          check:
+            status: 200
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                title:
+                  type: string
+                  minLength: 1
+                completed:
+                  type:
+                    - boolean
+                    - "null"
+                  default: false
+              required:
+                - id
+                - title
+components:
+  schemas: {}

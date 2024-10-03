@@ -11,7 +11,7 @@ describe('todo usecases', () => {
       .mockResolvedValueOnce({
         id: 1 as TodoId,
         title: 'Buy milk',
-        completed: false,
+        done: false,
       })
       .mockResolvedValueOnce(null),
     makeComplete: vi.fn(),
@@ -25,7 +25,7 @@ describe('todo usecases', () => {
   it('creates a new todo', async () => {
     const title = 'Buy milk';
     await createTodo(repository, title);
-    expect(repository.insert).toHaveBeenCalledWith({ title, completed: false });
+    expect(repository.insert).toHaveBeenCalledWith({ title, done: false });
   });
 
   it('completes a todo', async () => {

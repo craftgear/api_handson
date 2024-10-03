@@ -26,7 +26,7 @@ export const todoRepository: TodoRepository = {
       .insertInto('todo')
       .values({
         ...newTodo,
-        completed: 0,
+        done: 0,
       })
       .returningAll()
       .executeTakeFirst();
@@ -35,7 +35,7 @@ export const todoRepository: TodoRepository = {
   makeComplete: async (id: TodoId) => {
     const data = await db
       .updateTable('todo')
-      .set({ completed: 1 })
+      .set({ done: 1 })
       .where('todo.id', '=', id)
       .returningAll()
       .executeTakeFirst();

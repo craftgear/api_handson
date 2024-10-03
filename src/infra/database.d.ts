@@ -10,7 +10,7 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 
 export interface Todo {
-  completed: Generated<number | null>;
+  done: Generated<number | null>;
   id: Generated<number | null>;
   title: string;
 }
