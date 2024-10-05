@@ -16,7 +16,7 @@ app.onError((e, c) => {
 app.doc31("/open-api", {
   openapi: "3.1.0",
   info: { title: "API Hands On", version: "1" },
-  servers: [{ url: "http://localhost:3000/" }],
+  servers: [{ url: "http://localhost:3000" }],
   tags: [
     {
       name: "todos",
