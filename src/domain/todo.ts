@@ -10,8 +10,8 @@ const TodoSchema = z.object({
     .trim()
     // パース時にタイトルが一文字以上あるかどうかチェック
     .min(1, { message: "Title must be at least 1 character long" }),
-  done: z.boolean().default(false),
-  doneAt: z.date().optional(),
+  done: z.coerce.boolean().default(false),
+  doneAt: z.coerce.date().optional(),
 });
 
 export type Todo = z.infer<typeof TodoSchema>;
@@ -30,6 +30,6 @@ export const isComplete = (todo: Todo) => todo.done;
 export type TodoRepository = {
   selectAll: () => Promise<Todo[]>;
   selectById: (id: TodoId) => Promise<Todo | null>;
-  insert: (todo: NewTodo) => Promise<Todo>;
+  insert: (todo: NewTodo) => Promise<Todo | null>;
   setCompleted: (id: TodoId) => Promise<Todo | null>;
 };

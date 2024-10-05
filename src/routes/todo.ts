@@ -32,6 +32,7 @@ todoRoute.patch("/:id/complete", async (c) => {
     const todo = await completeTodo(todoRepository, todoId);
     return c.json(todo);
   } catch (e: unknown) {
+    console.log("----- e", e);
     throw new HTTPException(400, { message: (e as Error).message });
   }
 });
