@@ -23,3 +23,10 @@ export type NewTodo = Omit<Todo, 'id'>;
 export const parseNewTodo = (data: unknown): NewTodo => TodoSchema.omit({ id: true }).parse(data);
 
 export const isComplete = (todo: Todo) => todo.done;
+
+export type TodoRepository = {
+  selectAll: () => Promise<Todo[]>;
+  selectById: (id: TodoId) => Promise<Todo | null>;
+  insert: (todo: NewTodo) => Promise<Todo | null>;
+  setCompleted: (id: TodoId) => Promise<Todo | null>;
+};
