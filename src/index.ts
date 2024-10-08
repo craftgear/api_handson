@@ -1,16 +1,23 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 
-const app = new Hono()
+import { todoRoute } from "./routes/todo";
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const app = new Hono();
 
-const port = 3000
-console.log(`Server is running on port ${port}`)
+app.route("/v1", todoRoute);
+app.onError((e, c) => {
+  if (e instanceof HTTPException) {
+    return e.getResponse();
+  }
+  return c.json({ error: e.message }, 500);
+});
+
+const port = 3000;
+console.log(`Server is running on port ${port}`);
 
 serve({
   fetch: app.fetch,
-  port
-})
+  port,
+});
