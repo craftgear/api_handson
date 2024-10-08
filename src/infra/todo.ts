@@ -1,32 +1,30 @@
-import { db } from "./db";
-import { toCamel } from "snake-camel";
-
-import type { TodoRepository, NewTodo, TodoId } from "../domain/todo";
-import { parseTodo, parseNewTodo } from "../domain/todo";
+import { db } from './db';
+import { toCamel } from 'snake-camel';
+import type { TodoRepository, NewTodo, TodoId } from '../domain/todo';
+import { parseTodo } from '../domain/todo';
 
 export const todoRepository: TodoRepository = {
   selectAll: async () => {
     const data = await db
-      .selectFrom("todo")
+      .selectFrom('todo')
       .selectAll()
-      .orderBy("id desc")
+      .orderBy('id desc')
       .execute();
     return data.map((x) => parseTodo(toCamel(x)));
   },
   selectById: async (id: TodoId) => {
     const data = await db
-      .selectFrom("todo")
+      .selectFrom('todo')
       .selectAll()
-      .where("todo.id", "=", id)
+      .where('todo.id', '=', id)
       .executeTakeFirst();
     return data ? parseTodo(toCamel(data)) : null;
   },
   insert: async (input: NewTodo) => {
-    const newTodo = parseNewTodo(input);
     const data = await db
-      .insertInto("todo")
+      .insertInto('todo')
       .values({
-        ...newTodo,
+        ...input,
         done: 0,
       })
       .returningAll()
@@ -35,9 +33,9 @@ export const todoRepository: TodoRepository = {
   },
   setCompleted: async (id: TodoId) => {
     const data = await db
-      .updateTable("todo")
+      .updateTable('todo')
       .set({ done: 1, done_at: Date.now() })
-      .where("todo.id", "=", id)
+      .where('todo.id', '=', id)
       .returningAll()
       .executeTakeFirst();
     return data ? parseTodo(toCamel(data)) : null;
