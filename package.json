@@ -19,6 +19,7 @@
     "@types/better-sqlite3": "^7.6.11",
     "@types/node": "^20.11.17",
     "kysely-codegen": "^0.16.8",
+    "stepci": "^2.8.2",
     "tsx": "^4.7.1"
   }
 }

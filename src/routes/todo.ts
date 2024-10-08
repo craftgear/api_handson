@@ -86,7 +86,7 @@ const patchTodoRoute = createRoute({
   description: 'Mark a todo item as complete',
   request: {
     params: z.object({
-      id: TodoSchema.shape.id,
+      id: z.string(),
     }),
   },
   responses: {
@@ -106,11 +106,8 @@ const patchTodoRoute = createRoute({
 
 todoRoute.openapi(patchTodoRoute, async (c) => {
   const id = c.req.param('id');
-  if (id === undefined) {
-    throw new HTTPException(400, { message: 'id is required' });
-  }
-  const todoId = parseTodoId(Number(id));
   try {
+    const todoId = parseTodoId(Number(id));
     const todo = await completeTodo(todoRepository, todoId);
     return c.json(todo);
   } catch (e: unknown) {
