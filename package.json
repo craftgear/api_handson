@@ -2,7 +2,9 @@
   "name": "api",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "build": "tsc && cp database.sqlite ./dist",
+    "start": "node ./dist/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.4",
