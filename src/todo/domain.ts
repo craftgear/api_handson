@@ -2,7 +2,14 @@ import { z } from "zod";
 
 export const TodoSchema = z.object({
   id: z.number().brand("TodoId"),
-  title: z.string(),
+  title: z
+    .string({
+      // パース時にタイトルの有無をチェック
+      required_error: "Title is required",
+    })
+    .trim()
+    // パース時にタイトルが一文字以上あるかどうかチェック
+    .min(1, { message: "Title must be at least 1 character long" }),
   done: z.coerce.boolean().default(false),
   doneAt: z.coerce.date().nullish(),
 });
@@ -17,3 +24,5 @@ export const parseTodoId = (id: number): TodoId =>
 export type NewTodo = Omit<Todo, "id">;
 export const parseNewTodo = (data: unknown): NewTodo =>
   TodoSchema.omit({ id: true }).parse(data);
+
+export const isComplete = (todo: Todo) => todo.done;
