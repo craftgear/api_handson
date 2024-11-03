@@ -24,6 +24,7 @@
     "eslint": "^9.14.0",
     "kysely-codegen": "^0.17.0",
     "prettier": "^3.3.3",
+    "stepci": "^2.8.2",
     "tsx": "^4.7.1",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.12.2",
