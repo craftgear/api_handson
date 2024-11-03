@@ -27,6 +27,12 @@ describe.concurrent("todo usecases", () => {
     expect(repository.selectAll).toHaveBeenCalledWith(0, 10);
   });
 
+  it("page number should be larger then 0", () => {
+    expect(() => readTodos(repository, 0)).rejects.toThrowError(
+      "page should be a positive number",
+    );
+  });
+
   it("creates a new todo", async () => {
     const title = "Buy milk";
     await createTodo(repository, title);
