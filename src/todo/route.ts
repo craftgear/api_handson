@@ -80,7 +80,7 @@ todoRoute.openapi(postTodoRoute, async (c) => {
 const patchTodoRoute = createRoute({
   operationId: 'completeTodo',
   tags: ['todos'],
-  path: '/todos/{id}/complete',
+  path: '/todos/{id}',
   method: 'patch',
   description: 'Mark a todo item as complete',
   request: {

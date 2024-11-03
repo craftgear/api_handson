@@ -1,8 +1,10 @@
 {
   "name": "api",
+  "version": "0.1.0",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "test": "vitest"
+    "dev": "env NODE_ENV=development tsx watch src/index.ts",
+    "test": "vitest",
+    "build": "tsc"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",
@@ -19,6 +21,7 @@
     "@types/better-sqlite3": "^7.6.11",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.11.17",
+    "esbuild": "^0.24.0",
     "eslint": "^9.13.0",
     "kysely-codegen": "^0.17.0",
     "stepci": "^2.8.2",

@@ -1,4 +1,4 @@
-import { serve } from "@hono/node-server";
+import { serve, } from "@hono/node-server";
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { swaggerUI } from '@hono/swagger-ui';
 import { HTTPException } from "hono/http-exception";
@@ -20,19 +20,20 @@ app.onError((e, c) => {
   return c.json({ error: e.message }, 500);
 });
 
-app.doc31('/open-api', {
-  openapi: '3.1.0',
-  info: { title: 'API Hands On', version: '1' },
-  servers: [{ url: 'http://localhost:3000' }],
-  tags: [
-    {
-      name: 'todos',
-      description: 'Operations about todos',
-    },
-  ],
-});
-app.get('/doc', swaggerUI({ url: '/open-api' }));
-
+if (process.env.NODE_ENV === 'development') {
+  app.doc31('/open-api', {
+    openapi: '3.1.0',
+    info: { title: 'API Hands On', version: '1' },
+    servers: [{ url: 'http://localhost:3000' }],
+    tags: [
+      {
+        name: 'todos',
+        description: 'Operations about todos',
+      },
+    ],
+  });
+  app.get('/doc', swaggerUI({ url: '/open-api' }));
+}
 
 const port = 3000;
 console.log(`Server is running on port ${port}`);
